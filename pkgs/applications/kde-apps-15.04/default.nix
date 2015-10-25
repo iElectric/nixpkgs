@@ -281,7 +281,7 @@ let
         buildInputs = [ scope.canberra ];
         nativeBuildInputs = [ scope.pkgconfig ];
         # cmake does not detect path to `ilmbase`
-        NIX_CFLAGS_COMPILE = "-I${scope.ilmbase}/include/OpenEXR";
+        NIX_CFLAGS_COMPILE = "-I${scope.ilmbase}/include/OpenEXR -I${gnome3.glib}/include/glib-2.0 -I${glib}/lib/glib-2.0/include";
         # some components of this package have been replaced in other packages
         meta = { priority = 10; };
       };
