@@ -163,14 +163,6 @@ in
             PrivateTmp = true;
           };
           path = [ pkgs.simp_le ];
-          preStart = ''
-            mkdir -p '${cfg.directory}'
-            if [ ! -d '${cpath}' ]; then
-              mkdir '${cpath}'
-            fi
-            chmod ${rights} '${cpath}'
-            chown -R '${data.user}:${data.group}' '${cpath}'
-          '';
           script = ''
             cd '${cpath}'
             set +e
@@ -199,6 +191,38 @@ in
             Unit = "acme-${cert}.service";
           };
         })
+      );
+
+      system.activationScripts.acme = concatStringsSep "" (flip mapAttrsToList cfg.certs (cert: data:
+        let
+          cpath = "${cfg.directory}/${cert}";
+          rights = if data.allowKeysForGroup then "750" else "700";
+        in
+        ''
+if [ ! -d '${data.webroot}' ]; then
+  mkdir -p '${data.webroot}'
+  chmod -R ${rights} '${data.webroot}'
+  chown -R '${data.user}:${data.group}' '${data.webroot}'
+fi
+
+mkdir -p '${cfg.directory}'
+if [ ! -d '${cpath}' ]; then
+  mkdir '${cpath}'
+fi
+if [ ! -f '${cpath}/key.pem' ]; then
+  ${pkgs.openssl}/bin/openssl genrsa -des3 -passout pass:x -out server.pass.key 2048
+  ${pkgs.openssl}/bin/openssl rsa -passin pass:x -in server.pass.key -out server.key
+  rm server.pass.key
+  ${pkgs.openssl}/bin/openssl req -new -key server.key -out server.csr \
+    -subj "/C=UK/ST=Warwickshire/L=Leamington/O=OrgName/OU=IT Department/CN=example.com"
+  ${pkgs.openssl}/bin/openssl x509 -req -days 1 -in server.csr -signkey server.key -out server.crt
+  mv server.key ${cpath}/key.pem
+  mv server.crt ${cpath}/fullchain.pem
+  rm server.csr
+fi
+chmod -R ${rights} '${cpath}'
+chown -R '${data.user}:${data.group}' '${cpath}'
+        '')
       );
     })
 
