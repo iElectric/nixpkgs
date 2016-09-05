@@ -9733,12 +9733,6 @@ in
 
   webkitgtk = webkitgtk212x;
 
-  webkitgtk24x = callPackage ../development/libraries/webkitgtk/2.4.nix {
-    harfbuzz = harfbuzz-icu;
-    gst-plugins-base = gst_all_1.gst-plugins-base;
-    inherit (darwin) libobjc;
-  };
-
   webkitgtk212x = callPackage ../development/libraries/webkitgtk/2.12.nix {
     harfbuzz = harfbuzz-icu;
     gst-plugins-base = gst_all_1.gst-plugins-base;
@@ -9749,10 +9743,7 @@ in
     gst-plugins-base = gst_all_1.gst-plugins-base;
   };
 
-  webkitgtk2 = webkitgtk24x.override {
-    withGtk2 = true;
-    enableIntrospection = false;
-  };
+  webkitgtk2 = webkitgtk212x.override { };
 
   websocketpp = callPackage ../development/libraries/websocket++ { };
 
@@ -13655,7 +13646,6 @@ in
   jbrout = callPackage ../applications/graphics/jbrout { };
 
   jumanji = callPackage ../applications/networking/browsers/jumanji {
-    webkitgtk = webkitgtk24x;
     gtk = gtk3;
   };
 
@@ -13812,9 +13802,7 @@ in
   });
 
 
-  liferea = callPackage ../applications/networking/newsreaders/liferea {
-    webkitgtk = webkitgtk24x;
-  };
+  liferea = callPackage ../applications/networking/newsreaders/liferea { };
 
   lingot = callPackage ../applications/audio/lingot {
     inherit (gnome) libglade;

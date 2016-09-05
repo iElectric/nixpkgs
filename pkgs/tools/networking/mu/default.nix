@@ -1,6 +1,6 @@
 { fetchurl, stdenv, sqlite, pkgconfig, autoreconfHook
 , xapian, glib, gmime, texinfo , emacs, guile
-, gtk3, webkitgtk24x, libsoup, icu }:
+, gtk3, webkitgtk, libsoup, icu }:
 
 stdenv.mkDerivation rec {
   version = "0.9.16";
@@ -14,7 +14,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     sqlite pkgconfig xapian glib gmime texinfo emacs guile libsoup icu
     autoreconfHook
-    gtk3 webkitgtk24x ];
+    gtk3 webkitgtk ];
 
   preBuild = ''
     # Fix mu4e-builddir (set it to $out)

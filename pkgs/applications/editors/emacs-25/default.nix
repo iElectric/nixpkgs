@@ -5,7 +5,7 @@
 , autoconf, automake
 , withX ? !stdenv.isDarwin
 , withGTK3 ? false, gtk3 ? null
-, withXwidgets ? false, webkitgtk24x ? null, wrapGAppsHook ? null, glib_networking ? null
+, withXwidgets ? false, webkitgtk ? null, wrapGAppsHook ? null, glib_networking ? null
 , withGTK2 ? true, gtk2
 }:
 
@@ -15,7 +15,7 @@ assert withGTK2 -> withX || stdenv.isDarwin;
 assert withGTK3 -> withX || stdenv.isDarwin;
 assert withGTK2 -> !withGTK3 && gtk2 != null;
 assert withGTK3 -> !withGTK2 && gtk3 != null;
-assert withXwidgets -> withGTK3 && webkitgtk24x != null;
+assert withXwidgets -> withGTK3 && webkitgtk != null;
 
 let
   toolkit =
@@ -52,7 +52,7 @@ stdenv.mkDerivation rec {
     ++ stdenv.lib.optional (withX && withGTK2) gtk2
     ++ stdenv.lib.optional (withX && withGTK3) gtk3
     ++ stdenv.lib.optional (stdenv.isDarwin && withX) cairo
-    ++ stdenv.lib.optionals withXwidgets [webkitgtk24x wrapGAppsHook glib_networking];
+    ++ stdenv.lib.optionals withXwidgets [webkitgtk wrapGAppsHook glib_networking];
 
   propagatedBuildInputs = stdenv.lib.optionals stdenv.isDarwin [ AppKit GSS ImageIO ];
 

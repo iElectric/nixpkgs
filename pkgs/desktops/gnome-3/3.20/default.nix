@@ -45,7 +45,7 @@ let
     hitori gnome-taquin
   ];
 
-  inherit (pkgs) glib gtk2 webkitgtk24x webkitgtk212x gtk3 gtkmm3 libcanberra;
+  inherit (pkgs) glib gtk2 webkitgtk212x gtk3 gtkmm3 libcanberra;
   inherit (pkgs.gnome2) ORBit2;
   libsoup = pkgs.libsoup.override { gnomeSupport = true; };
   libchamplain = pkgs.libchamplain.override { libsoup = libsoup; };
@@ -81,7 +81,6 @@ let
   dconf-editor = callPackage ./core/dconf-editor { };
 
   # empathy = callPackage ./core/empathy {
-  #   webkitgtk = webkitgtk24x;
   #   clutter-gst = pkgs.clutter-gst;
   # };
 
@@ -256,13 +255,11 @@ let
   accerciser = callPackage ./apps/accerciser { };
 
   bijiben = callPackage ./apps/bijiben {
-    webkitgtk = webkitgtk24x;
   };
 
   cheese = callPackage ./apps/cheese { };
 
   evolution = callPackage ./apps/evolution {
-    webkitgtk = webkitgtk24x;
   };
 
   file-roller = callPackage ./apps/file-roller { };
@@ -366,13 +363,11 @@ let
   california = callPackage ./misc/california { };
 
   geary = callPackage ./misc/geary {
-    webkitgtk = webkitgtk24x;
   };
 
   gfbgraph = callPackage ./misc/gfbgraph { };
 
   gitg = callPackage ./misc/gitg {
-    webkitgtk = webkitgtk24x;
   };
 
   gspell = callPackage ./misc/gspell { };

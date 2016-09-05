@@ -231,9 +231,9 @@ self: super: {
 
   # Need WebkitGTK, not just webkit.
   webkit = super.webkit.override { webkit = pkgs.webkitgtk2; };
-  webkitgtk3 = super.webkitgtk3.override { webkit = pkgs.webkitgtk24x; };
-  webkitgtk3-javascriptcore = super.webkitgtk3-javascriptcore.override { webkit = pkgs.webkitgtk24x; };
-  websnap = super.websnap.override { webkit = pkgs.webkitgtk24x; };
+  webkitgtk3 = super.webkitgtk3.override { webkit = pkgs.webkitgtk; };
+  webkitgtk3-javascriptcore = super.webkitgtk3-javascriptcore.override { webkit = pkgs.webkitgtk; };
+  websnap = super.websnap.override { webkit = pkgs.webkitgtk; };
 
   # https://github.com/mvoidex/hsdev/issues/11
   hsdev = dontHaddock super.hsdev;
