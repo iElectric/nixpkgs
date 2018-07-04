@@ -524,4 +524,5 @@ self: super: builtins.intersectAttrs super {
   SDL = addBuildTool super.SDL pkgs.SDL;
   neat-interpolation = addBuildTool super.neat-interpolation self.HTF;
   hnix = addBuildTool super.hnix pkgs.nix;
+  postgresql-libpq = addBuildTool super.postgresql-libpq pkgs.postgresql.out;
 }
