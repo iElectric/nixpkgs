@@ -171,7 +171,7 @@ let
 
 in package-set { inherit pkgs stdenv callPackage; } self // {
 
-    inherit mkDerivation callPackage haskellSrc2nix hackage2nix buildHaskellPackages;
+    inherit mkDerivation mkDerivationImpl callPackage haskellSrc2nix hackage2nix buildHaskellPackages;
 
     inherit (haskellLib) packageSourceOverrides;
 
