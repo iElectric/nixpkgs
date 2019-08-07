@@ -18,14 +18,14 @@ common =
   , confDir
   , withLibseccomp ? lib.any (lib.meta.platformMatch stdenv.hostPlatform) libseccomp.meta.platforms, libseccomp
   , withAWS ? stdenv.isLinux || stdenv.isDarwin, aws-sdk-cpp
-
+  , patchPhase ? ""
   , name, suffix ? "", src, includesPerl ? false, fromGit ? false
 
   }:
   let
      sh = busybox-sandbox-shell;
      nix = stdenv.mkDerivation rec {
-      inherit name src;
+      inherit name src patchPhase;
       version = lib.getVersion name;
 
       is20 = lib.versionAtLeast version "2.0pre";
@@ -176,7 +176,11 @@ in rec {
 
     inherit storeDir stateDir confDir boehmgc;
   } // stdenv.lib.optionalAttrs stdenv.cc.isClang {
-    stdenv = llvmPackages_6.stdenv;
+    patchPhase = ''
+      substituteInPlace . \
+        --replace "<experimental/optional>" "<optional>" \
+        --replace "std::experimental::optional" "std::optional"
+    '';
   });
 
   nixUnstable = lib.lowPrio (callPackage common rec {
