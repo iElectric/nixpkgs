@@ -177,9 +177,11 @@ in rec {
     inherit storeDir stateDir confDir boehmgc;
   } // stdenv.lib.optionalAttrs stdenv.cc.isClang {
     patchPhase = ''
-      substituteInPlace . \
-        --replace "<experimental/optional>" "<optional>" \
-        --replace "std::experimental::optional" "std::optional"
+      for f in $(find src/ -name "*.cc" -or -name "*.hh"); do
+        substituteInPlace $f \
+          --replace "<experimental/optional>" "<optional>" \
+          --replace "std::experimental::optional" "std::optional"
+      done
     '';
   });
 
