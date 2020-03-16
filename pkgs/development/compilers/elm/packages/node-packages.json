@@ -4,6 +4,7 @@
     "elm-doc-preview",
     "elm-upgrade",
     "elm-analyse",
+    "elm-coverage",
     "elm-live",
     "elm-xref",
     "@elm-tooling/elm-language-server"

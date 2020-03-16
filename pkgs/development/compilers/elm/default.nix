@@ -73,10 +73,30 @@ let
           inherit nodejs pkgs;
           inherit (stdenv.hostPlatform) system;
         };
-    in with hsPkgs.elmPkgs; {
+    in with hsPkgs.elmPkgs; rec {
       elm-test = patchBinwrap [elmi-to-json] nodePkgs.elm-test;
       elm-verify-examples = patchBinwrap [elmi-to-json] nodePkgs.elm-verify-examples;
       elm-language-server = nodePkgs."@elm-tooling/elm-language-server";
+      elm-coverage = let
+          wrap = patchBinwrap [elmi-to-json] nodePkgs.elm-coverage;
+          binPath = stdenv.lib.makeBinPath [
+            elm
+            elm-test
+          ];
+        in nodePkgs.elm-coverage.override {
+        buildInputs = [ pkgs.makeWrapper ] ++ wrap.buildInputs;
+
+        preRebuild = ''
+          sed '/"elm"/d' --in-place package.json
+        '';
+
+        postInstall = ''
+          for prog in $out/bin/*; do
+            wrapProgram "$prog" --prefix PATH : ${binPath}
+          done
+          ${wrap.postInstall}
+        '';
+      };
 
       inherit (nodePkgs) elm-doc-preview elm-live elm-upgrade elm-xref elm-analyse;
     };
