@@ -33,6 +33,8 @@ let
     machine.services.xserver.desktopManager.xterm.enable = false;
     machine.services.xserver.layout = mkOverride 900 layout;
     machine.imports = [ ./common/x11.nix extraConfig ];
+    # prevent cleaning up files in tmpdir
+    machine.systemd.timers.systemd-tmpfiles-clean.enable = pkgs.lib.mkForce true;
 
     testScript = ''
       import json
