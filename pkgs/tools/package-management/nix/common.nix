@@ -64,7 +64,9 @@ self = stdenv.mkDerivation {
   version = "${version}${suffix}";
   VERSION_SUFFIX = suffix;
 
-  inherit src patches;
+  inherit src;
+
+  patches = patches ++ [ ./patches/static-libraries.patch ];
 
   outputs =
     [ "out" "dev" ]
