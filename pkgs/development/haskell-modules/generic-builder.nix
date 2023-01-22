@@ -330,6 +330,7 @@ stdenv.mkDerivation ({
   propagatedBuildInputs = optionals isLibrary propagatedBuildInputs;
 
   LANG = "en_US.UTF-8";         # GHC needs the locale configured during the Haddock phase.
+  LD = "${pkgs.darwin.cctools-apple}/bin/ld";
 
   prePatch = optionalString (editedCabalFile != null) ''
     echo "Replace Cabal file with edited version from ${newCabalFileUrl}."
