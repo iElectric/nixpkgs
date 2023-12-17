@@ -382,8 +382,10 @@ in
       {
         assertion = opt.pkgs.isDefined -> cfg.config == {};
         message = ''
-          Your system configures nixpkgs with an externally created instance.
-          `nixpkgs.config` options should be passed when creating the instance instead.
+          `pkgs` was passed to the module system,
+          thus `nixpkgs.config` option has no effect.
+
+          Pass `nixpkgs.config` directly when creating `pkgs` instead.
 
           Current value:
           ${lib.generators.toPretty { multiline = true; } opt.config}
